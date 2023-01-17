@@ -1,0 +1,35 @@
+.card{
+  width: 28rem;
+  height: 23rem;
+  align-items: center;
+  margin: auto;
+  margin-top: 3rem;
+  border-radius: 24px;
+  border-width: 2px;
+}
+
+.card ::shadow{
+  border-color: #D5F5E3  ;
+  box-shadow: #2ECC71 ;
+}
+h1{
+  text-align: center;
+  margin-top: 1rem;
+}
+
+h6{
+  text-align: center;
+}
+
+#btn {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.input-group{
+
+  margin-right: auto;
+  margin-left: auto;
+}
+

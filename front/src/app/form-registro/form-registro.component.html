@@ -1,0 +1,105 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<div class="d-flex justify-content-center m-5 p-5">
+  <mat-card>
+    <mat-card-header>
+      <h1>Inscripción de Curso de Manejo </h1>
+
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex justify-content-center">
+        <img src="assets/img/logo.png" width="400px" alt="">
+      </div>
+      <br><br>
+      <form [formGroup]="FormValidate" novalidate>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Nombres</mat-label>
+          <input matInput formControlName="nombre_estudiante" placeholder="Placeholder">
+          <mat-error
+          *ngIf="this.FormValidate.get('nombre_estudiante')?.touched && this.FormValidate.get('nombre_estudiante')?.errors?.['required']">
+          Nombres son requerido</mat-error>
+        </mat-form-field><br><br>
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Cédula</mat-label>
+          <input matInput formControlName="cedula_estudiante" placeholder="Cédula">
+          <mat-error>
+            <mat-error
+              *ngIf="this.FormValidate.get('cedula_estudiante')?.touched && this.FormValidate.get('cedula_estudiante')?.errors?.['required']">
+              Cédula es requerida</mat-error>
+            <mat-error
+              *ngIf="this.FormValidate.get('cedula_estudiante')?.touched && this.FormValidate.get('cedula_estudiante')?.errors?.['minlength']?.requiredLength!= undefined">
+              La cédula no debe ser menor a 10 dígitos</mat-error>
+            <mat-error
+              *ngIf="this.FormValidate.get('cedula_estudiante')?.touched && this.FormValidate.get('cedula_estudiante')?.errors?.['maxlength']?.requiredLength!= undefined">
+              La cédula no debe ser mayor a 10 dígitos</mat-error>
+            <mat-error
+              *ngIf="this.FormValidate.get('cedula_estudiante')?.touched && this.FormValidate.get('cedula_estudiante')?.errors?.['invalidNumber']!= undefined">
+              La cédula debe ser solo numérica</mat-error>
+          </mat-error>
+        </mat-form-field><br><br>
+
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="correo_estudiante" placeholder="correo">
+          <mat-error>
+            <mat-error
+              *ngIf="this.FormValidate.get('correo_estudiante')?.touched && this.FormValidate.get('correo_estudiante')?.errors?.['required']">
+              Correo es requerida</mat-error>
+            <mat-error
+              *ngIf="this.FormValidate.get('correo_estudiante')?.touched && this.FormValidate.get('correo_estudiante')?.errors?.['email']">
+              Al parecer su correo no tienen un formato valido</mat-error>
+          </mat-error>
+        </mat-form-field><br><br>
+
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono_estudiante" placeholder="Teléfono">
+          <mat-error>
+            <mat-error>
+              <mat-error
+                *ngIf="this.FormValidate.get('telefono_estudiante')?.touched && this.FormValidate.get('telefono_estudiante')?.errors?.['required']">
+                Teléfono es requerida</mat-error>
+              <mat-error
+                *ngIf="this.FormValidate.get('telefono_estudiante')?.touched && this.FormValidate.get('telefono_estudiante')?.errors?.['minlength']?.requiredLength!= undefined">
+                La teléfono no debe ser menor a 10 dígitos</mat-error>
+              <mat-error
+                *ngIf="this.FormValidate.get('telefono_estudiante')?.touched && this.FormValidate.get('telefono_estudiante')?.errors?.['maxlength']?.requiredLength!= undefined">
+                La teléfono no debe ser mayor a 10 dígitos</mat-error>
+              <mat-error
+                *ngIf="this.FormValidate.get('telefono_estudiante')?.touched && this.FormValidate.get('telefono_estudiante')?.errors?.['invalidNumber']!= undefined">
+                La teléfono debe ser solo numérica</mat-error>
+            </mat-error>
+          </mat-error>
+        </mat-form-field><br><br>
+
+        <p class="fw-bold">Tipo</p>
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button (click)="setType('Nuevo ingreso')" value="Nuevo ingreso">Nuevo ingreso</mat-radio-button><br>
+          <mat-radio-button (click)="setType('Renovación')" value="Renovación">Renovación</mat-radio-button><br>
+          <mat-radio-button (click)="setType('Recuperación de puntos')" value="Recuperación de puntos">Recuperación de puntos</mat-radio-button>
+        </mat-radio-group><br><br>
+        <p class="fw-bold">Cursos</p>
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button (click)="setCourse('Licencia A - $100')" value="Licencia A - $100">Licencia A - $100</mat-radio-button><br>
+          <mat-radio-button (click)="setCourse('Licencia B - $200')" value="Licencia B - $200">Licencia B - $200</mat-radio-button><br>
+          <mat-radio-button (click)="setCourse('Licencia C - $300')" value="Licencia C - $300">Licencia C - $300</mat-radio-button><br>
+          <mat-radio-button (click)="setCourse('Licencia D - $400')" value="Licencia D - $400">Licencia D - $400</mat-radio-button><br>
+          <mat-radio-button (click)="setCourse('Licencia E - $500')" value="Licencia E - $500">Licencia E - $500</mat-radio-button><br>
+          <mat-radio-button (click)="setCourse('Licencia F - $600')" value="Licencia F - $600">Licencia F - $600</mat-radio-button><br>
+        </mat-radio-group>
+
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="d-flex justify-content-center">
+
+        <button  (click)="enviar()" [disabled]="FormValidate.invalid" mat-raised-button color="primary">Enviar información</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
