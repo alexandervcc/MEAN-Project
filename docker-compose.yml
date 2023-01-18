@@ -8,3 +8,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=web-server
       - MONGO_INITDB_ROOT_PASSWORD=web-server
       - MONGO_INITDB_DATABASE=licencias
+  networks:
+    - mean-licencias
+  
+networks:
+  mean-licencias:
