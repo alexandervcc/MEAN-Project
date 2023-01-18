@@ -7,16 +7,16 @@ import { TableComprobantComponent } from './table-comprobant/table-comprobant.co
 import { TableRegisterComponent } from './table-register/table-register.component';
 
 const routes: Routes = [
-  {path:'', redirectTo: '/home', pathMatch: 'full'},
-  {path:'home', component: FormRegistroComponent},
-  {path:'registro-comprobante', component: ComprobanteComponent},
-  {path:'comprobante', component: TableComprobantComponent},
-  {path:'login', component: LoginComponent},
-  {path:'Registro', component: TableRegisterComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: FormRegistroComponent },
+  { path: 'registro-comprobante', component: ComprobanteComponent },
+  { path: 'comprobante', component: TableComprobantComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'registro', component: TableRegisterComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

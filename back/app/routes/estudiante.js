@@ -1,22 +1,34 @@
-const express = require('express')
+const express = require("express");
 const router = express.Router();
-const { getEstudiantes , getEstudiante, createEstudiante, searchCedula, searchEmail,updateEstudiante, deleteEstudiante, updateComprobante} = require('../controllers/estudiante')
+const {
+  getEstudiantes,
+  getEstudiante,
+  createEstudiante,
+  searchCedula,
+  searchEmail,
+  updateEstudiante,
+  deleteEstudiante,
+  uploadComprobante,
+  rechazarEstudiante,
+} = require("../controllers/estudiante");
 
-router.get('/', getEstudiantes)
+router.get("/", getEstudiantes);
 
-router.get('/:_id', getEstudiante)
+router.get("/:_id", getEstudiante);
 
-router.post('/', createEstudiante)
+router.post("/", createEstudiante);
 
-router.post('/searchCedula', searchCedula)
-
-router.post('/searchEmail', searchEmail)
-
-router.patch('/', updateEstudiante)
-router.patch('/:_id', updateComprobante)
+router.put("/rechazar/:_id", rechazarEstudiante);
 
 
-router.delete('/:_id', deleteEstudiante)
+router.post("/searchCedula", searchCedula);
 
+router.post("/searchEmail", searchEmail);
 
-module.exports = router
+router.patch("/", updateEstudiante);
+
+router.patch("/:_id", uploadComprobante);
+
+router.delete("/:_id", deleteEstudiante);
+
+module.exports = router;

@@ -1,8 +1,16 @@
 const estudianteModel = require("../models/estudiante");
 
 const getEstudiantes = async (req, res) => {
+  const filters = {};
+
+  const estado_inscripcion = req.query.estado_inscripcion;
+
+  if (estado_inscripcion) {
+    filters.estado_inscripcion = estado_inscripcion;
+  }
+
   try {
-    const listAll = await estudianteModel.find({});
+    const listAll = await estudianteModel.find({ ...filters });
     res.send(listAll);
   } catch (error) {
     res.send(error);
@@ -12,7 +20,7 @@ const getEstudiantes = async (req, res) => {
 const searchCedula = async (req, res) => {
   try {
     const { cedula_estudiante } = req.body;
-    const estudiante = await estudianteModel.findOne({ cedula_estudiante  });
+    const estudiante = await estudianteModel.findOne({ cedula_estudiante });
     if (estudiante._id != null) {
       res.send(estudiante);
     } else {
@@ -37,7 +45,6 @@ const searchEmail = async (req, res) => {
   }
 };
 
-
 const getEstudiante = async (req, res) => {
   try {
     const { _id } = req.body;
@@ -48,8 +55,6 @@ const getEstudiante = async (req, res) => {
   }
 };
 
-
-
 const createEstudiante = async (req, res) => {
   try {
     const {
@@ -58,7 +63,7 @@ const createEstudiante = async (req, res) => {
       correo_estudiante,
       telefono_estudiante,
       tipo_estudiante,
-      curso_estudiante
+      curso_estudiante,
     } = req.body.estudiante;
 
     const resDetail = await estudianteModel.create({
@@ -68,16 +73,19 @@ const createEstudiante = async (req, res) => {
       telefono_estudiante,
       tipo_estudiante,
       curso_estudiante,
-      estado_inscripcion,
-      estado_comprobante,
-      comprobante
-    } );
-   
+      createdAt: new Date(),
+      estado_inscripcion: true,
+    });
 
     res.send({ data: resDetail });
   } catch (error) {
-    console.log(req.body);
-    console.error(error);
+    if (error && error.code === 11000) {
+      return res.status(400).send({
+        error: `Atributos con valor duplicado`,
+        details: error.keyValue,
+      });
+    }
+    return res.status(500);
   }
 };
 
@@ -90,52 +98,77 @@ const updateEstudiante = async (req, res) => {
       correo_estudiante,
       telefono_estudiante,
       tipo_estudiante,
-      curso_estudiante
+      curso_estudiante,
     } = req.body;
     let resDetail = await estudianteModel.findOneAndUpdate(
       { _id },
-      { nombre_estudiante,
+      {
+        nombre_estudiante,
         cedula_estudiante,
         correo_estudiante,
         telefono_estudiante,
         tipo_estudiante,
-        curso_estudiante },
+        curso_estudiante,
+      }
     );
     res.send({ data: resDetail });
   } catch (error) {
     res.send(error);
   }
 };
-
 
 const deleteEstudiante = async (req, res, next) => {
   try {
     const { _id } = req.params;
     const resDetail = await estudianteModel.findOneAndDelete({ _id });
     const listAll = await estudianteModel.find({});
-    
+
     res.send({ data: listAll });
   } catch (error) {
     res.send(error);
   }
 };
 
-
-const uploadComprobante = async(req, res)=> {
-  try{
-    const {
-      _id,
-      comprobante
-    } = req.body;
+const uploadComprobante = async (req, res) => {
+  try {
+    const { _id, comprobante } = req.body;
     let resDetail = await estudianteModel.findOneAndUpdate(
       { _id },
-      { comprobante},
+      { comprobante }
     );
     res.send({ data: resDetail });
-  }catch (error) {
+  } catch (error) {
     res.send(error);
   }
-}
+};
 
+const rechazarEstudiante = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    await estudianteModel.findOneAndUpdate(
+      { _id },
+      {
+        estado_inscripcion: false,
+      }
+    );
+    res
+      .status(200)
+      .send({ message: "Estado de estudiante cambiado a rechazado." });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ error: "Error en el servidor, intentar mas tarde." });
+  }
+};
 
-module.exports = { getEstudiantes, getEstudiante, searchEmail, searchCedula, createEstudiante, updateEstudiante, deleteEstudiante };
+module.exports = {
+  getEstudiantes,
+  getEstudiante,
+  searchEmail,
+  searchCedula,
+  createEstudiante,
+  updateEstudiante,
+  deleteEstudiante,
+  uploadComprobante,
+  rechazarEstudiante,
+};

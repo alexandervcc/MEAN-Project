@@ -1,9 +1,7 @@
 const usuarioModel = require("../models/usuario");
-const bcrypt = require("bcrypt")
-
+const bcrypt = require("bcrypt");
 
 const getUsuarios = async (req, res) => {
-
   try {
     const listAll = await usuarioModel.find({});
     res.send(listAll);
@@ -40,7 +38,6 @@ const searchEmail = async (req, res) => {
   }
 };
 
-
 const getUsuario = async (req, res) => {
   try {
     const { _id } = req.body;
@@ -50,8 +47,6 @@ const getUsuario = async (req, res) => {
     res.send("error");
   }
 };
-
-
 
 const createUsuario = async (req, res) => {
   try {
@@ -76,36 +71,34 @@ const createUsuario = async (req, res) => {
   }
 };
 
-
-
-
-
 const updateUsuario = async (req, res) => {
   try {
-
     const {
       _id,
       nombre_usuario,
       usuario_usuario,
       contrasenia_usuario,
       correo_usuario,
-      
     } = req.body;
-    let resDetail
+    let resDetail;
 
     if (contrasenia_usuario == null) {
       resDetail = await usuarioModel.findOneAndUpdate(
         { _id },
-        { nombre_usuario, usuario_usuario, correo_usuario,  },
+        { nombre_usuario, usuario_usuario, correo_usuario }
       );
     } else {
       const salt = await bcrypt.genSaltSync(11);
       const hash = await bcrypt.hashSync(contrasenia_usuario, salt);
       resDetail = await usuarioModel.findOneAndUpdate(
         { _id },
-        { nombre_usuario, usuario_usuario, contrasenia_usuario: hash, correo_usuario,  }
+        {
+          nombre_usuario,
+          usuario_usuario,
+          contrasenia_usuario: hash,
+          correo_usuario,
+        }
       );
-
     }
 
     res.send({ data: resDetail });
@@ -113,7 +106,6 @@ const updateUsuario = async (req, res) => {
     res.send("error");
   }
 };
-
 
 const deleteUsuario = async (req, res, next) => {
   try {
@@ -126,4 +118,12 @@ const deleteUsuario = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsuarios, getUsuario, searchEmail, searchUsername, createUsuario, updateUsuario, deleteUsuario };
+module.exports = {
+  getUsuarios,
+  getUsuario,
+  searchEmail,
+  searchUsername,
+  createUsuario,
+  updateUsuario,
+  deleteUsuario,
+};
